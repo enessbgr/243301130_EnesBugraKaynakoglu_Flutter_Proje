@@ -143,7 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      // Sadece yönetici müdahale eder ve görür
+      floatingActionButton: _userRole == 'Yonetici'
+          ? FloatingActionButton(
         onPressed: () {
           // Butona basılınca AddTaskScreen sayfasına geçiş yapar
           Navigator.push(
@@ -153,6 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         tooltip: 'Yeni Görev Ekle',
         child: const Icon(Icons.add),
-      ),);
+      )
+          : null, // Kullanıcı teknisyense hiçbir şey çizme
+    );
   }
 }
