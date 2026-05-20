@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,9 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false; // Yükleniyor animasyonu için
 
-  // Supabase Kayıt Olma Fonksiyonu
+  // Güncellenmiş Kayıt Olma Fonksiyonu
   Future<void> _kayitOl() async {
-    // Şifre uzunluğunu kontrol ediyoruz
     if (_passwordController.text.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Şifre en az 6 karakter olmalıdır!')),
@@ -26,15 +26,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() { _isLoading = true; });
     try {
-      await Supabase.instance.client.auth.signUp(
+      // 1. Supabase Auth (Kimlik) sistemine kayıt yap
+      final response = await Supabase.instance.client.auth.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      // 2. Kayıt başarılıysa, kullanıcının ID'sini alıp 'profiles' tablomuza ekle
+      if (response.user != null) {
+        await Supabase.instance.client.from('profiles').insert({
+          'id': response.user!.id,
+          'role': 'Teknisyen', // Yeni kaydolan herkes varsayılan olarak Teknisyen başlar
+        });
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Kayıt başarılı! Şimdi giriş yapabilirsiniz.')),
       );
     } on AuthException catch (e) {
-      // Supabase üzerinden kimlik kontrol yapıyoruz
       if (e.message.contains('already registered') || e.code == 'user_already_exists') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Bu e-posta adresi zaten kayıtlı! Lütfen giriş yapın.')),
@@ -45,7 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } catch (e) {
-      // Beklenmeyen diğer hata durumları için
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Sistemsel bir hata oluştu: $e')),
       );
@@ -53,14 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() { _isLoading = false; });
   }
 
-  // Supabase Giriş Yapma Fonksiyonu
+  // Güncellenmiş Giriş Yapma Fonksiyonu
   Future<void> _girisYap() async {
-    // Şifre uzunluğunu kontrol ettik yine
     if (_passwordController.text.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Şifre en az 6 karakter olmalıdır!')),
       );
-      return; // Şifre kısaysa fonksiyonu burada durdurur.
+      return;
     }
 
     setState(() { _isLoading = true; });
@@ -69,9 +76,18 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Giriş başarılı!')),
+        const SnackBar(content: Text('Giriş başarılı! Yönlendiriliyorsunuz...')),
       );
+
+      // Başarılı girişten sonra HomeScreen'e (Ana Sayfa) yönlendir
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      }
+
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Giriş başarısız. Lütfen bilgileri kontrol edin.')),
