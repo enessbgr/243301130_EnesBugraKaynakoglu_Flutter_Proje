@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'add_task_screen.dart';
-import 'login_screen.dart'; // Çıkış yapınca buraya dönecek
+import 'login_screen.dart';
+import 'profile_screen.dart'; // Çıkış yapınca buraya dönecek
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,15 +67,22 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    // Veri geldikten sonra rolüne göre başlık atıyoruz
+    // Veri geldikten sonra rolüne göre başlık attık
     return Scaffold(
       appBar: AppBar(
         title: Text(_userRole == 'Yonetici' ? 'Yönetici Paneli' : 'Teknisyen Paneli'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Çıkış Yap',
-            onPressed: _cikisYap,
+            icon: const Icon(Icons.account_circle, size: 30),
+            tooltip: 'Profil',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileScreen(userRole: _userRole ?? 'Bilinmiyor'),
+                ),
+              );
+            },
           ),
         ],
       ),
