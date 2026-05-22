@@ -1,16 +1,35 @@
-# p243301130_enes_bugra_kaynakoglu_periyodikkontrolvehizmettakibi
+# Periyodik Kontrol ve Hizmet Takip Sistemi
 
-A new Flutter project.
+Supabase kullanılarak Rol tabanlı (Yönetici / Teknisyen) periyodik hizmet takip sistemi oluşturulmuştur.
 
-## Getting Started
+## Öğrenci Bilgileri
+* **Ad Soyad:** Enes Buğra Kaynakoğlu
+* **Öğrenci No:** 243301130
 
-This project is a starting point for a Flutter application.
+## Test Hesapları (Supabase Auth)
+Test Hesapları ;
 
-A few resources to get you started if this is your first Flutter project:
+**Yönetici (Admin) Hesabı:**
+* E-posta: admin@gmail.com  
+* Şifre: 123456 
+* *Not: Sadece yöneticiler sisteme yeni periyodik kontrol görevi ekleyebilir.*
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+**Teknisyen Hesabı:**
+* E-posta: teknisyen@gmail.com 
+* Şifre: 123456 
+* *Not: Teknisyenler sadece listeyi görür görevleri detay sayfasından tamamlandı olarak işaretleyebilir.*
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Kullanılan Temel Paketler
+* `supabase_flutter`: Veritabanı ve kimlik doğrulama işlemleri için.
+* `flutter/material.dart`: UI bileşenleri için.
+
+## Ekran Görüntüleri
+
+1. Giriş/Kayıt Ekranı
+   ![Giriş Ekranı](giriskayitekrani.png)
+
+2. Ana Liste (Yönetici Paneli)
+   ![Ana Ekran](yoneticiekrani.png)
+
+3.  Profil Ekranı
+   ![Profil Ekranı](profilekrani.png)
