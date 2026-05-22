@@ -23,6 +23,9 @@ Test Hesapları ;
 * `supabase_flutter`: Veritabanı ve kimlik doğrulama işlemleri için.
 * `flutter/material.dart`: UI bileşenleri için.
 
+## Proje Tanıtım Videosu
+[Projenin videosu](https://drive.google.com/file/d/1ILjJmP0kTeRlWL_pXBj0kkdOj5fyLLCC/view?usp=drivesdk)
+
 ## Ekran Görüntüleri
 
 1. Giriş/Kayıt Ekranı
