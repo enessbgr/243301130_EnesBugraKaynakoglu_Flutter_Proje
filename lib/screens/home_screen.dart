@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'add_task_screen.dart';
 import 'login_screen.dart';
 import 'profile_screen.dart'; // Çıkış yapınca buraya dönecek
+import 'task_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -138,8 +139,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               : Colors.green.shade100,
                         ),
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('${gorev['title']} detaylarına yakında eklenecek!')),
+                          // Tıklanan görevin verisini detay sayfasına gönderdik
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TaskDetailScreen(task: gorev),
+                            ),
                           );
                         },
                       ),
